@@ -1,7 +1,7 @@
-package com.project.storereserve.domain.controller;
+package com.project.storereserve.controller;
 
 import com.project.storereserve.domain.entity.User;
-import com.project.storereserve.domain.service.UserServiceImpl;
+import com.project.storereserve.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
