@@ -1,23 +1,27 @@
 package com.project.storereserve.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
+@Setter
 @Entity
 public class User{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
     private String password;
     private String name;
-    private String email;
+
+    @Enumerated(EnumType.STRING)  // Enum 값을 String으로 저장
     private RoleSelect role;
 
 }
