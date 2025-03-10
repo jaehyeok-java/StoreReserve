@@ -1,9 +1,6 @@
 package com.project.storereserve.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,10 +16,13 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private int userId;
-    private int storeId;
+    @ManyToOne
+    private Reservation reservationId;
+    @ManyToOne
+    private User userId;
+
     private String reviewText;
-    private int rating;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
