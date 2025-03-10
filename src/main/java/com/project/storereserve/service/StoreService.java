@@ -13,6 +13,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class StoreService {
@@ -39,6 +42,12 @@ public class StoreService {
         User owner = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
+        //매장 중복 등록 검증 로직
+        storeRepository.findByNameAndLocation(requestDto.getName(), requestDto.getLocation())
+                .ifPresent(store -> {
+                    throw new IllegalArgumentException("이미 등록된 매장입니다.");
+                });
+
         // 매장 등록
         Store store = new Store();
         store.setName(requestDto.getName());
@@ -49,4 +58,27 @@ public class StoreService {
         return StoreResponseDto.from(storeRepository.save(store));
     }
 
+
+    // 매장 검색 기능 구현
+    public List<StoreResponseDto> searchStores(String name, String location) {
+        List<Store> stores = storeRepository.findByNameContainingOrLocationContaining(name, location);
+
+        // 둘 다 null 이면 예외
+        if (name == null && location == null) {
+            throw new IllegalArgumentException("검색 조건을 입력해야 합니다.");
+        }
+
+        return stores.stream()
+                .map(StoreResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+
+    // 매장 상세정보 조회 기능 구현
+    public StoreResponseDto getStoreDetails(Integer storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() ->  new IllegalArgumentException("매장을 찾을 수 없습니다.")
+                );
+        return StoreResponseDto.from(store);
+    }
 }
