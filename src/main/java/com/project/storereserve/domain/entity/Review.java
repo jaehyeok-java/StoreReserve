@@ -21,8 +21,11 @@ public class Review {
     @ManyToOne
     private User userId;
 
+    private Integer rating;
     private String reviewText;
 
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
