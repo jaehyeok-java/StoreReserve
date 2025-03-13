@@ -3,7 +3,7 @@ package com.project.storereserve.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Builder
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,7 +29,5 @@ public class Store {
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
-
-
 
 }

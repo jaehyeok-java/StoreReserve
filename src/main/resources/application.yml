@@ -15,3 +15,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method  # 메서드 정렬 (optional)
+    disable-swagger-default-url: true  # 기본 경로 비활성화 (optional)

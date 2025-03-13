@@ -21,24 +21,24 @@ public class ReviewService {
     private final StoreRepository storeRepository;
 
     // 리뷰 작성 서비스 로직
-    public Review createReview(Integer reservationId, Integer userId, String reviewText, Integer rating) {
+    public Review createReview(Integer reservationId, Integer userId, String reviewText, Integer rating, Store store) {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 예약이 존재하지 않습니다."));
 
-        if (!reservation.getUserId().getId().equals(userId)) {
+        if (!reservation.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("리뷰 작성은 예약자만 가능합니다.");
         }
 
         LocalDateTime now = LocalDateTime.now();
 
         Review review = new Review();
-        review.setReservationId(reservation);
-        review.setUserId(reservation.getUserId());
+        review.setReservation(reservation);
+        review.setUser(reservation.getUser());
         review.setReviewText(reviewText);
         review.setRating(rating);
         review.setCreatedAt(now);
         review.setUpdatedAt(now);
-
+        review.setStore(store);
         return reviewRepository.save(review);
     }
 
@@ -48,13 +48,14 @@ public class ReviewService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 리뷰가 존재하지 않습니다."));
 
         // 작성자만 수정 가능
-        if (!review.getUserId().getId().equals(userId)) {
+        if (!review.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("리뷰 수정은 작성자만 가능합니다.");
         }
 
         review.setReviewText(reviewText);
         review.setRating(rating);
         review.setUpdatedAt(LocalDateTime.now());
+
 
         return reviewRepository.save(review);
     }
@@ -64,9 +65,9 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 리뷰가 존재하지 않습니다."));
 
-        Integer storeId = review.getReservationId().getStoreId().getId();
+        Integer storeId = review.getReservation().getStore().getId();
 
-        if (!review.getUserId().getId().equals(userId) && !isAdmin(userId, storeId)) {
+        if (!review.getUser().getId().equals(userId) && !isAdmin(userId, storeId)) {
             throw new IllegalArgumentException("리뷰 삭제는 작성자 또는 관리자만 가능합니다.");
         }
 

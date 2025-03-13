@@ -16,10 +16,15 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToOne
+    private Reservation reservation;
+
     @ManyToOne
-    private Reservation reservationId;
+    private User user;
+
     @ManyToOne
-    private User userId;
+    private Store store;
 
     private Integer rating;
     private String reviewText;
