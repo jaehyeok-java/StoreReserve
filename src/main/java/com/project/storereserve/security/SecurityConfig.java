@@ -35,7 +35,14 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/auth/login","/users/register","/stores/search", "/stores/{storeId}").permitAll() // "/auth/login" 은 인증 없이 접근 가능
+                                .requestMatchers(
+                                        "/auth/login",
+                                        "/users/register",
+                                        "/stores/search",
+                                        "/stores/{storeId}",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**"
+                                ).permitAll() // "/auth/login" 은 인증 없이 접근 가능
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // JWT 필터를 UsernamePasswordAuthenticationFilter 전에 추가

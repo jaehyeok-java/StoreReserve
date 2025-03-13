@@ -41,8 +41,8 @@ public class ReservationService {
         }
 
         Reservation reservation = new Reservation();
-        reservation.setStoreId(store);
-        reservation.setUserId(user);
+        reservation.setStore(store);
+        reservation.setUser(user);
         reservation.setReservationTime(reservationTime);
         reservation.setStatus(Status.PRE_CONFIRMED);
         return reservationRepository.save(reservation);
@@ -64,7 +64,7 @@ public class ReservationService {
         }
 
         // 예약자와 방문확인 고객의 ID 비교 검증 로직
-        if (!reservation.getUserId().getId().equals(userId)) {
+        if (!reservation.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("예약고객과 방문확인 고객이 일치하지 않습니다. 방문확인은 예약 당사자만 가능합니다.");
         }
 

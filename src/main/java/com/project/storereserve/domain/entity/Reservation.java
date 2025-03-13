@@ -18,11 +18,11 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
-    private Store storeId;
+    private Store store;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User user;
 
     private LocalDateTime reservationTime;
 
