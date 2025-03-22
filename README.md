@@ -1,4 +1,4 @@
-# 매장 예약 서비스 (Store Reservation Service)**
+# 매장 예약 서비스 (Store Reservation Service)
 Spring Boot 기반의 매장 예약 서비스
 
 ##  Use 
